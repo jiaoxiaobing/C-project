@@ -2,8 +2,9 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #define SINGLENUM 10
-int serachdir ( char* path)
+void serachdir ( char* path)
 {
 	 unsigned int count=0;
 	 char txtname[128];
@@ -23,7 +24,7 @@ int serachdir ( char* path)
    while((dirp = readdir(dp)) != NULL)
    {
 	     int size = strlen(dirp->d_name);
-      if(strcmp((dirp ->d_name + (size-4)), ".mp3") != 0)  /*¹Ø¼üÊÇÕâ¾ä:dirp->d_name + (size - 4) dirp->d_nameÊÇÒ»¸ö×Ö·ûÖ¸Õë,¼ÙÈçÏÖÔÚÓÐ "abc.mp3",dirp->d_nameÔòÖ¸Ïò'a',dirp->d_name+1Ö¸Ïò'b'...,ÄÇÃ´´ËÊ±size=strlen("abc.mp3")=7,dirp->d_name+(7-4)=dirp->d_name+3,dirp->d_name+3Ö¸Ïò'.',´ËÊ±dirp->d_name+3Ö¸Ïò×Ö·û´®".mp3".È»ºó¾ÍÈ¥¸ú³£Á¿×Ö·û´®".mp3"±È½Ï,Èç¹û²»ÏàÍ¬¾ÍÖ´ÐÐÏÂÒ»´ÎÑ­»·*/
+      if(strcmp((dirp ->d_name + (size-4)), ".mp3") != 0)  /*å…³é”®æ˜¯è¿™å¥:dirp->d_name + (size - 4) dirp->d_nameæ˜¯ä¸€ä¸ªå­—ç¬¦æŒ‡é’ˆ,å‡å¦‚çŽ°åœ¨æœ‰ "abc.mp3",dirp->d_nameåˆ™æŒ‡å‘'a',dirp->d_name+1æŒ‡å‘'b'...,é‚£ä¹ˆæ­¤æ—¶size=strlen("abc.mp3")=7,dirp->d_name+(7-4)=dirp->d_name+3,dirp->d_name+3æŒ‡å‘'.',æ­¤æ—¶dirp->d_name+3æŒ‡å‘å­—ç¬¦ä¸²".mp3".ç„¶åŽå°±åŽ»è·Ÿå¸¸é‡å­—ç¬¦ä¸²".mp3"æ¯”è¾ƒ,å¦‚æžœä¸ç›¸åŒå°±æ‰§è¡Œä¸‹ä¸€æ¬¡å¾ªçŽ¯*/
             continue;
       if((++count) > SINGLENUM )
       {
@@ -36,12 +37,13 @@ int serachdir ( char* path)
 
     	  count =1;
       }
+      fputs(path,fp);
       fputs(dirp->d_name,fp);
       fputs("  ",fp);
+
    }
    fclose(fp);
    closedir(dp);
-   return 0;
 
 }
 
@@ -76,16 +78,38 @@ do{
 
 int main(void)
  {
-     long ret;
-     //  FILE *pfread, *pfwrite;
-	char fileread[20], filewrite[20];
-	char path[20] = "d:/Cadence";
+     int i = 0 ;
+     int ch;
+     FILE *pfread;
+	char fileread[40]= "D:/Cadence/aa/a1.mp3", filewrite[40] = "D:/Cadence/test/";
+/*	char path[20] = "D:/Cadence/aa/";
 	serachdir (path);
+	pfread = fopen("D:/testing/testing.txt","r");
+	while(ch != ' ')
+	{
+
+	   ch=fgetc(pfread);
+
+	        fileread[i]=ch;
+	        i++;
+	       // fputs(fileread,stderr);
+	}
+
+	//fputs(fileread,stderr);
+	//sleep(100);*/
+	 CopyFile(fileread,filewrite);
+
+		//fclose(pfread);
+
+
+
+	//printf("%s",ret);
+
    /* printf("input the readfile");
     scanf("%s",fileread);
     printf("intput the writefile");
     scanf("%s",filewrite);*/
-  //CopyFile(fileread,filewrite);
+  // CopyFile(fileread,filewrite);
 
 
 }
