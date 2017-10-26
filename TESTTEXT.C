@@ -1,10 +1,15 @@
+/*
+ * mystart.c
+ *
+ *  Created on: 2017年10月26日
+ *      Author: jiaobing
+ */
 	#include <stdio.h>
 	#include <dirent.h>
 	#include <string.h>
 	#include <stdlib.h>
 	#include <unistd.h>
 	#include <sys/stat.h>
-
 void cutthetext(char *path,char *path2)
 {
 	int z=0,j,y,i,h,st=0;
@@ -65,47 +70,74 @@ void cutthetext(char *path,char *path2)
            fclose(pfwrite);
 
 }
-typedef struct DTSCOUNT
-{
+typedef struct{
 	 char DTS[20];
 	 char ddesc[200];
 	 char people[30];
 	char fileld[15];
 	 char de[20];
-	 int linre;
+	 char linre[3];
 	 char serv[4];
 	 char anysl[200];
 }dts1;
+void removeCRchar( char *p)
+{
+  int i =0;
+  while((*(p+i))!= '\r')
+  i++;
+ (*(p+i)) = '\0';
+
+}
+
+
 void sort(char *path)
 {
-	
-	dts1 *d;
-	int i;
+	dts1 dts;
+	//dts1 *d;
+	int i,len,j;
 	FILE *fread,*fwrite;
-	char s[1024];
+	char s[1024],a[1]="\r";
 	char path3[40]="D:/Cadence/test/sort.txt";
 	fread = fopen(path,"r+");
 	fwrite = fopen(path3,"w+");
+	while((fgets(s,1024,fread))!=NULL)
+	{
+		  removeCRchar(s);
 	for(i=0;i<=7;i++)
 	{
-	  fgets(s,1024,fread);
+	 // fgets(s,1024,fread);
+
 	  switch (i) {
-	    case 0 : strcpy(,s);   break;
-	    case 1 : strcpy(d->ddesc,s);   break;
-	    case 2 : strcpy(d->people,s);   break;
-	    case 3 : strcpy(d->fileld,s);   break;
-	    case 4 : strcpy(d->de,s);   break;
-	    case 5 : strcpy(d->linre,s);   break;
-	    case 6 : strcpy(d->serv,s);   break;
-	    case 7 : strcpy(d->anysl,s);   break;
-	     }
+	    case 0 : strcpy(dts.DTS,s);   break;
+	    case 1 : strcpy(dts.ddesc,s);   break;
+	    case 2 : strcpy(dts.people,s);   break;
+	    case 3 : strcpy(dts.fileld,s);   break;
+	    case 4 : strcpy(dts.de,s);    break;
+	    case 5 : strcpy(dts.linre,s);   break;
+	    case 6 : strcpy(dts.serv,s);   break;
+	    case 7 : strcpy(dts.anysl,s);   break;
+	  }
 
 	}
-	fputs(d->DTS,fwrite);
+	fputs(dts.DTS,fwrite);
+	fputs("     ",fwrite);
+	fputs(dts.ddesc,fwrite);
+	fputs("     ",fwrite);
+	fputs(dts.fileld,fwrite);
+	fputs("     ",fwrite);
+	fputs(dts.de,fwrite);
+	fputs("     ",fwrite);
+	fputs(dts.linre,fwrite);
+	fputs("  ",fwrite);
+	fputs(dts.serv,fwrite);
 	fputs("   ",fwrite);
-	fputs(d->ddesc,fwrite);
-	close(fread);
-	close(fwrite);
+	fputs(dts.anysl,fwrite);
+	//fputs(a,fwrite);
+
+	}
+
+	fclose(fread);
+	fclose(fwrite);
 
 }
 	void main(void)
@@ -115,6 +147,8 @@ void sort(char *path)
 		//cutthetext(path,path2);
 		sort(path2);
  }
+
+
 
 
 
